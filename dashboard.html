@@ -1,0 +1,1031 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | Rishav Software</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="logo-section">
+        <h1 class="logo">RR</h1>
+      </div>
+      <div class="user-info">
+        <button onclick="goHome()" class="btn-home">🏠 Home</button>
+        <div class="user-profile">
+          <div class="user-avatar">👤</div>
+          <div class="user-details">
+            <span class="user-name" id="user-name-display">User Name</span>
+            <span class="user-email" id="user-email-display">user@example.com</span>
+          </div>
+        </div>
+        <button onclick="handleLogout()" class="btn-logout">Logout</button>
+      </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <nav>
+        <a href="#" onclick="showSection('dashboard')" class="nav-link active">📊 Dashboard</a>
+        <a href="products.html" class="nav-link" target="_self">🛍️ Products</a>
+        <a href="#" onclick="showSection('cart')" class="nav-link">🛒 Cart</a>
+        <a href="#" onclick="showSection('orders')" class="nav-link">📋 Order History</a>
+        <a href="#" onclick="showSection('profile')" class="nav-link">👤 Profile</a>
+        <a href="#" onclick="showSection('settings')" class="nav-link">⚙️ Settings</a>
+        <a href="#" onclick="showSection('support')" class="nav-link">🔧 Support</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="content-section active">
+        <h2>Dashboard</h2>
+        <div class="dashboard-stats">
+          <div class="stat-card" data-aos="zoom-in">
+            <h3>Total Orders</h3>
+            <p class="stat-number" id="total-orders">0</p>
+          </div>
+          <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+            <h3>Cart Items</h3>
+            <p class="stat-number" id="cart-count">0</p>
+          </div>
+          <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+            <h3>Total Spent</h3>
+            <p class="stat-number" id="total-spent">$0</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Products Section -->
+      <section id="products" class="content-section">
+        <h2>Software Products</h2>
+        <div class="products-grid" id="products-grid">
+          <!-- Products will be loaded here -->
+        </div>
+      </section>
+
+      <!-- Cart Section -->
+      <section id="cart" class="content-section">
+        <h2>Shopping Cart</h2>
+        <div class="cart-container">
+          <table class="cart-table" id="cart-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="cart-body">
+              <!-- Cart items will be loaded here -->
+            </tbody>
+          </table>
+          <div class="cart-summary">
+            <p>Subtotal: <span id="subtotal">$0</span></p>
+            <p>Tax (10%): <span id="tax">$0</span></p>
+            <p class="total"><strong>Total: <span id="total">$0</span></strong></p>
+            <button class="btn-checkout" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+          </div>
+          <div id="empty-cart" class="empty-message" style="display:none;">
+            Your cart is empty!
+          </div>
+        </div>
+      </section>
+
+      <!-- Orders Section -->
+      <section id="orders" class="content-section">
+        <h2>Order History</h2>
+        <div class="orders-container">
+          <table class="orders-table" id="orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Products</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="orders-body">
+              <!-- Orders will be loaded here -->
+            </tbody>
+          </table>
+          <div id="no-orders" class="empty-message" style="display:none;">
+            <p>🛒 No orders yet. Start shopping to place your first order!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Support Section -->
+      <section id="support" class="content-section">
+        <h2>Support & Help</h2>
+        <div class="support-container">
+          <div class="support-options">
+            <div class="support-item" data-aos="fade-up">
+              <h3>📧 Email Support</h3>
+              <p>Get help via email</p>
+              <button onclick="contactSupport('email')" class="btn-support">Send Email</button>
+            </div>
+            <div class="support-item" data-aos="fade-up" data-aos-delay="100">
+              <h3>💬 Live Chat</h3>
+              <p>Chat with our support team</p>
+              <button onclick="contactSupport('chat')" class="btn-support">Start Chat</button>
+            </div>
+            <div class="support-item" data-aos="fade-up" data-aos-delay="200">
+              <h3>📞 Phone Support</h3>
+              <p>Speak with our experts</p>
+              <button onclick="contactSupport('phone')" class="btn-support">Call Now</button>
+            </div>
+            <div class="support-item" data-aos="fade-up" data-aos-delay="300">
+              <h3>📚 Help Center</h3>
+              <p>Browse FAQs and guides</p>
+              <button onclick="contactSupport('help')" class="btn-support">Visit Help Center</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile Section -->
+      <section id="profile" class="content-section">
+        <h2>My Profile</h2>
+        <div class="profile-container">
+          <!-- Profile Header -->
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <div class="avatar-circle">👤</div>
+            </div>
+            <div class="profile-basic">
+              <h3 id="profile-name"></h3>
+              <p id="profile-email"></p>
+              <p class="member-since">Member since: <span id="profile-date"></span></p>
+            </div>
+          </div>
+
+          <!-- Profile Sections -->
+          <div class="profile-sections">
+            <!-- Personal Information -->
+            <div class="profile-section-card">
+              <h4>👤 Personal Information</h4>
+              <div class="profile-details-grid">
+                <div class="detail-item">
+                  <label>Full Name:</label>
+                  <span id="profile-full-name"></span>
+                </div>
+                <div class="detail-item">
+                  <label>Email Address:</label>
+                  <span id="profile-email-detail"></span>
+                </div>
+                <div class="detail-item">
+                  <label>Account Type:</label>
+                  <span id="profile-account-type"></span>
+                </div>
+                <div class="detail-item">
+                  <label>Registration Date:</label>
+                  <span id="profile-reg-date"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Account Statistics -->
+            <div class="profile-section-card">
+              <h4>📊 Account Statistics</h4>
+              <div class="profile-stats-grid">
+                <div class="stat-box">
+                  <div class="stat-number" id="profile-total-orders">0</div>
+                  <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-number" id="profile-total-spent">$0</div>
+                  <div class="stat-label">Total Spent</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-number" id="profile-active-products">0</div>
+                  <div class="stat-label">Active Products</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-number" id="profile-avg-order">$0</div>
+                  <div class="stat-label">Avg. Order Value</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="profile-section-card">
+              <h4>🕒 Recent Activity</h4>
+              <div class="activity-list" id="recent-activity">
+                <div class="activity-item">
+                  <div class="activity-icon">🛒</div>
+                  <div class="activity-content">
+                    <p>Welcome to Rishav Software!</p>
+                    <span class="activity-time">Account created</span>
+                  </div>
+                </div>
+                <!-- More activities will be loaded here -->
+              </div>
+            </div>
+
+            <!-- Account Status -->
+            <div class="profile-section-card">
+              <h4>🔐 Account Status</h4>
+              <div class="account-status">
+                <div class="status-item">
+                  <span class="status-label">Email Verification:</span>
+                  <span class="status-value verified" id="email-verification">✔️ Verified</span>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Two-Factor Auth:</span>
+                  <span class="status-value disabled" id="two-factor-status">✖️ Disabled</span>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Subscription:</span>
+                  <span class="status-value active" id="subscription-status">✔️ Active</span>
+                </div>
+                <div class="status-item">
+                  <span class="status-label">Last Login:</span>
+                  <span class="status-value" id="last-login">Today</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="settings" class="content-section">
+        <h2>Account Settings</h2>
+        <div class="settings-container">
+          <div class="settings-section">
+            <h3>Personal Information</h3>
+            <form class="settings-form" onsubmit="updateProfile(event)">
+              <div class="form-group">
+                <label for="settings-name">Full Name</label>
+                <input type="text" id="settings-name" required>
+              </div>
+              <div class="form-group">
+                <label for="settings-email">Email</label>
+                <input type="email" id="settings-email" required>
+              </div>
+              <button type="submit" class="btn-settings">Update Profile</button>
+            </form>
+          </div>
+          <div class="settings-section">
+            <h3>Password</h3>
+            <form class="settings-form" onsubmit="changePassword(event)">
+              <div class="form-group">
+                <label for="current-password">Current Password</label>
+                <input type="password" id="current-password" required>
+              </div>
+              <div class="form-group">
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" required minlength="6">
+              </div>
+              <div class="form-group">
+                <label for="confirm-password">Confirm New Password</label>
+                <input type="password" id="confirm-password" required minlength="6">
+              </div>
+              <button type="submit" class="btn-settings">Change Password</button>
+            </form>
+          </div>
+          <div class="settings-section">
+            <h3>Notifications</h3>
+            <div class="notification-settings">
+              <label class="toggle-label">
+                <input type="checkbox" id="email-notifications" checked>
+                <span class="toggle-slider"></span>
+                Email notifications for orders
+              </label>
+              <label class="toggle-label">
+                <input type="checkbox" id="product-updates" checked>
+                <span class="toggle-slider"></span>
+                Product updates and news
+              </label>
+              <label class="toggle-label">
+                <input type="checkbox" id="security-alerts">
+                <span class="toggle-slider"></span>
+                Security alerts
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Product Modal -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <p class="modal-price">Price: <strong id="modal-price"></strong></p>
+      <input type="number" id="modal-quantity" min="1" max="10" value="1" placeholder="Quantity">
+      <button onclick="addToCart()" class="btn-add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+
+    let cart = [];
+    let orders = [];
+    const products = [
+      { id: 1, name: 'Project Management Pro', price: 99, description: 'Advanced project management software' },
+      { id: 2, name: 'Design Studio Elite', price: 149, description: 'Professional design and graphics tool' },
+      { id: 3, name: 'Code Editor Premium', price: 79, description: 'Advanced code editing with AI assistance' },
+      { id: 4, name: 'Data Analytics Suite', price: 199, description: 'Comprehensive data analysis platform' },
+      { id: 5, name: 'Security Guardian', price: 129, description: 'Enterprise security and encryption software' },
+      { id: 6, name: 'Cloud Storage Plus', price: 59, description: 'Unlimited cloud storage solution' }
+    ];
+
+    let currentProduct = null;
+    let userEmail = null;
+
+    // Initialize
+    window.addEventListener('load', function() {
+      // dashboard should rely on sessionStorage for per-tab/multiuser support
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      if (!isLoggedIn) {
+        alert('Please login to access your dashboard.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const userName = sessionStorage.getItem('userName') || 'Guest User';
+      userEmail = sessionStorage.getItem('userEmail') || 'guest@example.com';
+      
+      // Show profile
+      document.getElementById('user-name-display').textContent = userName;
+      document.getElementById('user-email-display').textContent = userEmail;
+      
+      loadCart();
+      loadOrders();
+      loadProducts();
+      updateStats();
+
+      // Check URL hash for section
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        showSection(hash);
+      }
+
+      // Load profile info
+      loadProfile();
+
+      // Auto-refresh order status every 5 seconds to catch admin updates
+      setInterval(function() {
+        if (document.getElementById('orders').classList.contains('active')) {
+          loadOrders();
+          updateStats();
+        }
+      }, 5000);
+    });
+
+    function loadProducts() {
+      const grid = document.getElementById('products-grid');
+      grid.innerHTML = products.map(product => `
+        <div class="product-card" data-aos="fade-up">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p class="price">$${product.price}</p>
+          <button onclick="openProductModal(${product.id})" class="btn-view">View Details</button>
+        </div>
+      `).join('');
+    }
+
+    function openProductModal(productId) {
+      currentProduct = products.find(p => p.id === productId);
+      document.getElementById('modal-title').textContent = currentProduct.name;
+      document.getElementById('modal-description').textContent = currentProduct.description;
+      document.getElementById('modal-price').textContent = `$${currentProduct.price}`;
+      document.getElementById('modal-quantity').value = 1;
+      document.getElementById('product-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('product-modal').style.display = 'none';
+    }
+
+    function addToCart() {
+      const quantity = parseInt(document.getElementById('modal-quantity').value);
+      const existingItem = cart.find(item => item.id === currentProduct.id);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          id: currentProduct.id,
+          name: currentProduct.name,
+          price: currentProduct.price,
+          quantity: quantity
+        });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateStats();
+      updateStats();
+      closeModal();
+      alert('Added to cart!');
+    }
+
+    function loadCart() {
+      const cartKey = `cart-${userEmail}`;
+      const savedCart = localStorage.getItem(cartKey);
+      cart = savedCart ? JSON.parse(savedCart) : [];
+      updateCartDisplay();
+    }
+
+    function saveCart() {
+      const cartKey = `cart-${userEmail}`;
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+    }
+
+    function updateCartDisplay() {
+      const tbody = document.getElementById('cart-body');
+      const emptyCart = document.getElementById('empty-cart');
+      
+      if (cart.length === 0) {
+        tbody.innerHTML = '';
+        emptyCart.style.display = 'block';
+        updateCartSummary();
+        return;
+      }
+      
+      emptyCart.style.display = 'none';
+      tbody.innerHTML = cart.map((item, index) => `
+        <tr>
+          <td>${item.name}</td>
+          <td>$${item.price}</td>
+          <td>
+            <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)">
+          </td>
+          <td>$${(item.price * item.quantity).toFixed(2)}</td>
+          <td><button onclick="removeFromCart(${index})" class="btn-remove">Remove</button></td>
+        </tr>
+      `).join('');
+      
+      updateCartSummary();
+    }
+
+    function updateQuantity(index, quantity) {
+      cart[index].quantity = parseInt(quantity);
+      saveCart();
+      updateCartDisplay();
+      updateStats();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      saveCart();
+      updateCartDisplay();
+      updateStats();
+    }
+
+    function updateCartSummary() {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const tax = subtotal * 0.1;
+      const total = subtotal + tax;
+      
+      document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+    }
+
+    function handleCheckout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const tax = total * 0.1;
+      const finalTotal = total + tax;
+      
+      const order = {
+        id: 'ORD-' + Date.now(),
+        date: new Date().toLocaleDateString(),
+        products: cart.map(item => item.name).join(', '),
+        amount: finalTotal,
+        status: 'Completed',
+        quantity: cart.reduce((sum, item) => sum + item.quantity, 0)
+      };
+      
+      orders.unshift(order);
+      const ordersKey = `orders-${userEmail}`;
+      localStorage.setItem(ordersKey, JSON.stringify(orders));
+      
+      // Save to admin system (name stored in session)
+      const userName = sessionStorage.getItem('userName') || 'Guest User';
+      
+      const allUsers = JSON.parse(localStorage.getItem('all-users') || '{}');
+      if (!allUsers[userEmail]) {
+        allUsers[userEmail] = {
+          name: userName,
+          email: userEmail,
+          registrationDate: new Date().toLocaleDateString(),
+          orders: []
+        };
+      }
+      
+      allUsers[userEmail].orders = allUsers[userEmail].orders || [];
+      allUsers[userEmail].orders.push(order);
+      localStorage.setItem('all-users', JSON.stringify(allUsers));
+      
+      cart = [];
+      saveCart();
+      
+      updateCartDisplay();
+      loadOrders();
+      updateStats();
+      
+      alert(`Order placed successfully! Order ID: ${order.id}\nTotal: $${finalTotal.toFixed(2)}`);
+    }
+
+    function loadProfile() {
+      const userName = sessionStorage.getItem('userName') || 'User';
+      const userEmail = sessionStorage.getItem('userEmail');
+      const allUsers = JSON.parse(localStorage.getItem('all-users') || '{}');
+      const userData = allUsers[userEmail] || {};
+      
+      // Basic info
+      document.getElementById('profile-name').textContent = userName;
+      document.getElementById('profile-email').textContent = userEmail;
+      document.getElementById('profile-full-name').textContent = userName;
+      document.getElementById('profile-email-detail').textContent = userEmail;
+      document.getElementById('profile-date').textContent = userData.registrationDate || new Date().toLocaleDateString();
+      document.getElementById('profile-reg-date').textContent = userData.registrationDate || new Date().toLocaleDateString();
+      
+      // Account type based on order history
+      const orders = userData.orders || [];
+      const accountType = orders.length > 5 ? 'Premium User' : orders.length > 0 ? 'Active User' : 'New User';
+      document.getElementById('profile-account-type').textContent = accountType;
+      
+      // Statistics
+      const totalOrders = orders.length;
+      const totalSpent = orders.reduce((sum, order) => sum + order.amount, 0);
+      const avgOrder = totalOrders > 0 ? (totalSpent / totalOrders).toFixed(2) : 0;
+      const activeProducts = orders.filter(order => order.status === 'Completed').length; // Simplified
+      
+      document.getElementById('profile-total-orders').textContent = totalOrders;
+      document.getElementById('profile-total-spent').textContent = `$${totalSpent.toFixed(2)}`;
+      document.getElementById('profile-active-products').textContent = activeProducts;
+      document.getElementById('profile-avg-order').textContent = `$${avgOrder}`;
+      
+      // Recent activity
+      loadRecentActivity(orders);
+      
+      // Account status
+      updateAccountStatus(userData);
+      
+      // Last login
+      const lastLogin = localStorage.getItem('lastLogin') || 'First login';
+      document.getElementById('last-login').textContent = lastLogin;
+      
+      // Update last login
+      localStorage.setItem('lastLogin', new Date().toLocaleDateString());
+      
+      // Load settings form
+      document.getElementById('settings-name').value = userName;
+      document.getElementById('settings-email').value = userEmail;
+    }
+
+    function updateAccountStatus(userData) {
+      // Email verification - assume verified if account exists
+      document.getElementById('email-verification').textContent = '✔️ Verified';
+      document.getElementById('email-verification').className = 'status-value verified';
+      
+      // Two-factor auth - check if enabled (could be stored in userData)
+      const twoFactorEnabled = userData.twoFactorEnabled || false;
+      document.getElementById('two-factor-status').textContent = twoFactorEnabled ? '✔️ Enabled' : '✖️ Disabled';
+      document.getElementById('two-factor-status').className = twoFactorEnabled ? 'status-value verified' : 'status-value disabled';
+      
+      // Subscription status based on recent activity
+      const orders = userData.orders || [];
+      const hasRecentOrder = orders.some(order => {
+        const orderDate = new Date(order.date);
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        return orderDate > thirtyDaysAgo;
+      });
+      
+      const subscriptionStatus = hasRecentOrder ? '✔️ Active' : orders.length > 0 ? '⏸️ Inactive' : '✖️ None';
+      const subscriptionClass = hasRecentOrder ? 'verified' : orders.length > 0 ? 'active' : 'disabled';
+      document.getElementById('subscription-status').textContent = subscriptionStatus;
+      document.getElementById('subscription-status').className = `status-value ${subscriptionClass}`;
+    }
+
+    function loadRecentActivity(orders) {
+      const activityList = document.getElementById('recent-activity');
+      const recentOrders = orders.slice(-5).reverse(); // Last 5 orders
+      
+      let activityHTML = `
+        <div class="activity-item">
+          <div class="activity-icon">🎉</div>
+          <div class="activity-content">
+            <p>Welcome to Rishav Software!</p>
+            <span class="activity-time">Account created</span>
+          </div>
+        </div>
+      `;
+      
+      // Add login activity
+      const lastLogin = localStorage.getItem('lastLogin');
+      if (lastLogin && lastLogin !== 'First login') {
+        activityHTML += `
+          <div class="activity-item">
+            <div class="activity-icon">📑</div>
+            <div class="activity-content">
+              <p>Logged into account</p>
+              <span class="activity-time">${lastLogin}</span>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Add recent orders
+      recentOrders.forEach(order => {
+        activityHTML += `
+          <div class="activity-item">
+            <div class="activity-icon">🛒</div>
+            <div class="activity-content">
+              <p>Order #${order.id} completed</p>
+              <span class="activity-time">${order.date} - $${order.amount.toFixed(2)}</span>
+            </div>
+          </div>
+        `;
+      });
+      
+      // Add profile update activity if recent
+      const profileUpdated = localStorage.getItem('profileLastUpdated');
+      if (profileUpdated) {
+        const updateDate = new Date(profileUpdated);
+        const now = new Date();
+        const daysSinceUpdate = Math.floor((now - updateDate) / (1000 * 60 * 60 * 24));
+        
+        if (daysSinceUpdate < 7) {
+          activityHTML += `
+            <div class="activity-item">
+              <div class="activity-icon">👤</div>
+              <div class="activity-content">
+                <p>Profile information updated</p>
+                <span class="activity-time">${updateDate.toLocaleDateString()}</span>
+              </div>
+            </div>
+          `;
+        }
+      }
+      
+      activityList.innerHTML = activityHTML;
+    }
+
+    function updateProfile(event) {
+      event.preventDefault();
+      const newName = document.getElementById('settings-name').value;
+      const newEmail = document.getElementById('settings-email').value;
+      
+      if (newEmail !== userEmail) {
+        alert('Email change not supported in demo. Please contact support.');
+        return;
+      }
+      
+      localStorage.setItem('userName', newName);
+      localStorage.setItem('profileLastUpdated', new Date().toISOString());
+      alert('Profile updated successfully!');
+      loadProfile();
+    }
+
+    function changePassword(event) {
+      event.preventDefault();
+      const currentPass = document.getElementById('current-password').value;
+      const newPass = document.getElementById('new-password').value;
+      const confirmPass = document.getElementById('confirm-password').value;
+      
+      if (newPass !== confirmPass) {
+        alert('New passwords do not match!');
+        return;
+      }
+      
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      if (users[userEmail] && users[userEmail].password === currentPass) {
+        users[userEmail].password = newPass;
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('Password changed successfully!');
+        document.getElementById('current-password').value = '';
+        document.getElementById('new-password').value = '';
+        document.getElementById('confirm-password').value = '';
+      } else {
+        alert('Current password is incorrect!');
+      }
+    }
+
+    function contactSupport(type) {
+      switch(type) {
+        case 'email':
+          window.location.href = 'mailto:support@rishavsoft.com?subject=Support Request';
+          break;
+        case 'chat':
+          openLiveChat();
+          break;
+        case 'phone':
+          window.location.href = 'tel:+91-9211585089';
+          break;
+        case 'help':
+          alert('Help center feature coming soon! Please check our documentation.');
+          break;
+      }
+    }
+
+    function openLiveChat() {
+      // Show live chat modal
+      const modal = document.getElementById('live-chat-modal') || createLiveChatModal();
+      modal.style.display = 'flex';
+      loadLiveChatHistory();
+    }
+
+    function createLiveChatModal() {
+      const modal = document.createElement('div');
+      modal.id = 'live-chat-modal';
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+      `;
+      modal.innerHTML = `
+        <div style="background: linear-gradient(120deg, #000, #1a0033); width: 500px; height: 600px; border-radius: 12px; border: 2px solid #00c6ff; padding: 20px; display: flex; flex-direction: column;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #00c6ff; padding-bottom: 15px;">
+            <h3 style="color: #00c6ff; margin: 0;">💬 Live Chat Support</h3>
+            <div style="display:flex; align-items:center;">
+              <button class="btn-end-chat" onclick="userEndChat()" style="display:none; background:#ff4444; border:none; color:#fff; padding:4px 8px; border-radius:6px; cursor:pointer; margin-right:10px;">End Chat</button>
+              <button onclick="closeLiveChat()" style="background: none; border: none; color: #00ff88; font-size: 24px; cursor: pointer;">✔️</button>
+            </div>
+          </div>
+          <div id="chat-messages-container" style="flex: 1; overflow-y: auto; margin-bottom: 15px; padding: 10px; border: 1px solid #00c6ff; border-radius: 8px;">
+            <!-- Messages will appear here -->
+          </div>
+          <div id="offer-end-controls" style="display:none; text-align:center; margin-bottom:10px;">
+            <button onclick="handleOfferResponse('needMore')" class="btn-offer" style="margin-right:8px;">Need More Help</button>
+            <button onclick="handleOfferResponse('end')" class="btn-offer">End Chat</button>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" id="live-chat-input" placeholder="Type message..." style="flex: 1; padding: 10px; background: rgba(255,255,255,0.08); border: 2px solid rgba(0,198,255,0.3); border-radius: 8px; color: white; font-size: 14px;" onkeypress="if(event.key==='Enter') sendLiveChatMessage()">
+            <button onclick="sendLiveChatMessage()" style="padding: 10px 20px; background: linear-gradient(135deg, #00c6ff, #00ff88); border: none; border-radius: 8px; color: black; font-weight: 600; cursor: pointer;">Send</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      return modal;
+    }
+
+    function loadLiveChatHistory() {
+      const container = document.getElementById('chat-messages-container');
+      const offerControls = document.getElementById('offer-end-controls');
+      const allChats = JSON.parse(localStorage.getItem('liveChats') || '[]');
+      const userChats = allChats.filter(chat => chat.email === userEmail);
+      
+      if (userChats.length === 0) {
+        container.innerHTML = `<div style="color: #00c6ff; text-align: center; padding: 20px;">No previous chats. Start typing below!</div>`;
+        if (offerControls) offerControls.style.display = 'none';
+        return;
+      }
+
+      container.innerHTML = userChats.map(msg => `
+        <div style="margin-bottom: 10px; padding: 8px; border-radius: 6px; background: ${msg.sender === 'user' ? 'linear-gradient(135deg, #00c6ff, #00ff88)' : 'rgba(0,198,255,0.1)'}; color: ${msg.sender === 'user' ? 'black' : '#00c6ff'};">
+          <strong>${msg.sender === 'user' ? 'You' : 'Support'}:</strong> ${msg.message}
+          <div style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">${msg.time}</div>
+        </div>
+      `).join('');
+
+      // check for pending offer and show response buttons
+      let lastOffer = null;
+      let offerIdx = -1;
+      userChats.forEach((msg, idx) => {
+        // ignore any self-offers (shouldn't exist) – only support staff can create them
+        if (msg.offerEnd && msg.sender !== 'user') { lastOffer = msg; offerIdx = idx; }
+      });
+      if (lastOffer) {
+        const responded = userChats.slice(offerIdx + 1).some(c => c.offerEndResponse);
+        if (!responded && offerControls) offerControls.style.display = 'flex';
+        else if (offerControls) offerControls.style.display = 'none';
+      } else if (offerControls) {
+        offerControls.style.display = 'none';
+      }
+
+      // end-chat button visibility/disabled state
+      const endBtn = document.querySelector('.btn-end-chat');
+      if (endBtn) {
+        if (lastOffer && lastOffer.sender !== 'user') {
+          // show it; disable if already closed
+          endBtn.style.display = 'inline-block';
+          const lastMsg = userChats[userChats.length - 1];
+          endBtn.disabled = lastMsg && lastMsg.status === 'closed';
+          endBtn.style.opacity = endBtn.disabled ? '0.5' : '1';
+        } else {
+          endBtn.style.display = 'none';
+        }
+      }
+
+      // Scroll to bottom
+      setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+      }, 100);
+    }
+
+    function sendLiveChatMessage() {
+      const input = document.getElementById('live-chat-input');
+      const message = input.value.trim();
+
+      if (!message) {
+        alert('Please type a message');
+        return;
+      }
+
+      // prevent sending if chat already closed
+      const existingChats = JSON.parse(localStorage.getItem('liveChats') || '[]');
+      const last = existingChats.filter(c => c.email === userEmail).pop();
+      if (last && last.status === 'closed') {
+        alert('This chat session has been closed. Please start a new conversation if needed.');
+        return;
+      }
+
+      // Create chat message object
+      const chatMessage = {
+        id: 'CHAT-' + Date.now(),
+        email: userEmail,
+        message: message,
+        sender: 'user',
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        status: 'pending'
+      };
+
+      // Save to localStorage
+      const allChats = JSON.parse(localStorage.getItem('liveChats') || '[]');
+      allChats.push(chatMessage);
+      localStorage.setItem('liveChats', JSON.stringify(allChats));
+
+      // Clear input and reload
+      input.value = '';
+      loadLiveChatHistory();
+
+      // Show confirmation
+      alert('Message sent! An admin will respond shortly.');
+    }
+
+    function closeLiveChat() {
+      const modal = document.getElementById('live-chat-modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    // respond to an admin/executive offer to end the chat
+    function handleOfferResponse(choice) {
+      const responseMsg = {
+        id: 'CHAT-' + Date.now(),
+        email: userEmail,
+        message: choice === 'end' ? 'Thank you for your help.' : 'I need more assistance.',
+        sender: 'user',
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        offerEndResponse: choice
+      };
+      if (choice === 'end') {
+        responseMsg.status = 'closed';
+      }
+      const allChats = JSON.parse(localStorage.getItem('liveChats') || '[]');
+      allChats.push(responseMsg);
+      localStorage.setItem('liveChats', JSON.stringify(allChats));
+      if (choice === 'end') {
+        closeLiveChat();
+      }
+      loadLiveChatHistory();
+    }
+
+    // allow user to close session proactively
+    function userEndChat() {
+      if (!confirm('Are you sure you want to end the chat?')) return;
+      const endMsg = {
+        id: 'CHAT-' + Date.now(),
+        email: userEmail,
+        message: 'Chat ended by user.',
+        sender: 'user',
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        offerEndResponse: 'end',
+        status: 'closed'
+      };
+      const allChats = JSON.parse(localStorage.getItem('liveChats') || '[]');
+      allChats.push(endMsg);
+      localStorage.setItem('liveChats', JSON.stringify(allChats));
+      loadLiveChatHistory();
+      closeLiveChat();
+    }
+
+    function loadOrders() {
+      // Load orders from admin system to get latest status updates
+      const allUsers = JSON.parse(localStorage.getItem('all-users') || '{}');
+      const userOrders = allUsers[userEmail]?.orders || [];
+      orders = userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+      updateOrdersDisplay();
+    }
+
+    function updateOrdersDisplay() {
+      const tbody = document.getElementById('orders-body');
+      const noOrders = document.getElementById('no-orders');
+      
+      if (orders.length === 0) {
+        tbody.innerHTML = '';
+        noOrders.style.display = 'block';
+        return;
+      }
+      
+      noOrders.style.display = 'none';
+      tbody.innerHTML = orders.map(order => `
+        <tr>
+          <td>${order.id}</td>
+          <td>${order.date}</td>
+          <td>${order.products}</td>
+          <td>$${order.amount.toFixed(2)}</td>
+          <td><span class="status">${order.status}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function updateStats() {
+      document.getElementById('total-orders').textContent = orders.length;
+      document.getElementById('cart-count').textContent = cart.length;
+      const totalSpent = orders.reduce((sum, order) => sum + order.amount, 0);
+      document.getElementById('total-spent').textContent = `$${totalSpent.toFixed(2)}`;
+    }
+
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Remove active from all nav links
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Show selected section
+      document.getElementById(sectionId).classList.add('active');
+      
+      // Add active to clicked nav link
+      event.target.classList.add('active');
+
+      // Refresh orders when viewing them to get latest admin updates
+      if (sectionId === 'orders') {
+        loadOrders();
+        updateStats();
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userName');
+      sessionStorage.removeItem('userEmail');
+      alert('Logged out successfully!');
+      window.location.href = 'index.html';
+    }
+
+    function goHome() {
+      // Check if user is logged in
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      if (isLoggedIn) {
+        // Keep logged-in user on dashboard
+        showSection('dashboard');
+        event.target.blur();
+      } else {
+        // Non-logged in user goes to homepage
+        window.location.href = 'index.html';
+      }
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('product-modal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
+
+

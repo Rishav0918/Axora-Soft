@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment | Rishav Software</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="logo-section">
+        <h1 class="logo">RR</h1>
+      </div>
+      <div class="user-info">
+        <button onclick="goHome()" class="btn-home">🏠 Home</button>
+        <div class="user-profile">
+          <div class="user-avatar">👤</div>
+          <div class="user-details">
+            <span class="user-name" id="user-name-display">User Name</span>
+            <span class="user-email" id="user-email-display">user@example.com</span>
+          </div>
+        </div>
+        <button onclick="handleLogout()" class="btn-logout">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section class="content-section active">
+        <h2>Payment</h2>
+        <div class="payment-container">
+          <!-- Shipping Address Summary -->
+          <div class="address-summary">
+            <h3>📦 Shipping Address</h3>
+            <div id="address-display">
+              <!-- Address will be loaded here -->
+            </div>
+          </div>
+
+          <!-- Payment Form -->
+          <div class="payment-form">
+            <h3>💳 Payment Information</h3>
+            
+            <div class="payment-methods">
+              <h4>Select Payment Method</h4>
+              <div class="method-options">
+                <label class="method-option">
+                  <input type="radio" name="payment-method" value="card" checked onchange="showPaymentForm('card')">
+                  <span>💳 Credit/Debit Card</span>
+                </label>
+                <label class="method-option">
+                  <input type="radio" name="payment-method" value="paypal" onchange="showPaymentForm('paypal')">
+                  <span>🅿️ PayPal</span>
+                </label>
+                <label class="method-option">
+                  <input type="radio" name="payment-method" value="googlepay" onchange="showPaymentForm('googlepay')">
+                  <span>🎯 Google Pay</span>
+                </label>
+                <label class="method-option">
+                  <input type="radio" name="payment-method" value="applepay" onchange="showPaymentForm('applepay')">
+                  <span>🍎 Apple Pay</span>
+                </label>
+                <label class="method-option">
+                  <input type="radio" name="payment-method" value="bank" onchange="showPaymentForm('bank')">
+                  <span>🏦 Bank Transfer</span>
+                </label>
+              </div>
+            </div>
+
+            <div id="card-form" class="payment-details">
+              <form onsubmit="processPayment(event)">
+                <div class="form-group">
+                  <label for="card-name">Cardholder Name</label>
+                  <input type="text" id="card-name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                  <label for="card-number">Card Number</label>
+                  <input type="text" id="card-number" required placeholder="1234 5678 9012 3456" pattern="\d{4} \d{4} \d{4} \d{4}">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="expiry">Expiry Date</label>
+                    <input type="text" id="expiry" required placeholder="MM/YY" pattern="\d{2}/\d{2}">
+                  </div>
+                  <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" required placeholder="123" pattern="\d{3}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="billing-address">Billing Address</label>
+                  <textarea id="billing-address" required placeholder="Enter your billing address"></textarea>
+                </div>
+                <button type="submit" class="btn-payment">Complete Payment</button>
+              </form>
+            </div>
+
+            <div id="paypal-form" class="payment-details" style="display:none;">
+              <div class="payment-info">
+                <p>You will be redirected to PayPal to complete your payment securely.</p>
+                <button onclick="processPayPal()" class="btn-payment">Continue with PayPal</button>
+              </div>
+            </div>
+
+            <div id="googlepay-form" class="payment-details" style="display:none;">
+              <div class="payment-info">
+                <p>Complete your payment using Google Pay.</p>
+                <button onclick="processGooglePay()" class="btn-payment">Pay with Google Pay</button>
+              </div>
+            </div>
+
+            <div id="PhonePay-form" class="payment-details" style="display:none;">
+              <div class="payment-info">
+                <p>Complete your payment using Phone Pay.</p>
+                <button onclick="processPhonePay()" class="btn-payment">Pay with Phone Pay</button>
+              </div>
+            </div>
+
+            <div id="applepay-form" class="payment-details" style="display:none;">
+              <div class="payment-info">
+                <p>Complete your payment using Apple Pay.</p>
+                <button onclick="processApplePay()" class="btn-payment">Pay with Apple Pay</button>
+              </div>
+            </div>
+
+            <div id="bank-form" class="payment-details" style="display:none;">
+              <div class="payment-info">
+                <p>Bank transfer details will be provided after order confirmation.</p>
+                <p><strong>Bank: Rishav Software Bank</strong></p>
+                <p><strong>Account: 1234567890</strong></p>
+                <p><strong>Routing: 0987654321</strong></p>
+                <p>Please include your Order ID in the transfer reference.</p>
+                <button onclick="processBankTransfer()" class="btn-payment">Confirm Bank Transfer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="success-modal" class="modal" style="display:none;">
+    <div class="modal-content success-content">
+      <div class="success-icon">✔️</div>
+      <h2>Order Successfully Placed!</h2>
+      <div class="success-details">
+        <p><strong>Order ID:</strong> <span id="order-id-display"></span></p>
+        <p><strong>Total Amount:</strong> <span id="order-amount-display"></span></p>
+        <p><strong>Date:</strong> <span id="order-date-display"></span></p>
+        <p class="success-message">Thank you for your purchase! Your order has been confirmed and will be processed shortly.</p>
+      </div>
+      <button onclick="goToDashboard()" class="btn-success">Go to Dashboard</button>
+      <button onclick="goHome()" class="btn-success-secondary">Return Home</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+
+    let cart = [];
+    let userEmail = '';
+
+    window.addEventListener('load', function() {
+      const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+      if (!isLoggedIn) {
+        alert('Please login to proceed to payment.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      userEmail = sessionStorage.getItem('userEmail');
+      const userName = sessionStorage.getItem('userName') || 'User';
+      document.getElementById('user-name-display').textContent = userName;
+      document.getElementById('user-email-display').textContent = userEmail;
+
+      loadCart();
+      loadShippingAddress();
+    });
+
+    function loadShippingAddress() {
+      const addressData = sessionStorage.getItem('shippingAddress');
+      const addressDisplay = document.getElementById('address-display');
+      
+      if (addressData) {
+        const address = JSON.parse(addressData);
+        addressDisplay.innerHTML = `
+          <div class="address-details">
+            <p><strong>${address.fullname}</strong></p>
+            <p>${address.street}</p>
+            <p>${address.city}, ${address.state} ${address.zipcode}</p>
+            <p>${address.country}</p>
+            <p>📧 ${address.email}</p>
+            <p>📞 ${address.phone}</p>
+          </div>
+        `;
+      } else {
+        addressDisplay.innerHTML = `
+          <div class="address-details">
+            <p style="color: #ffa500; font-style: italic;">❌ No shipping address found. Please go back to checkout to enter your address.</p>
+          </div>
+        `;
+      }
+    }
+
+    function loadCart() {
+      const cartKey = `cart-${userEmail}`;
+      const savedCart = localStorage.getItem(cartKey);
+      cart = savedCart ? JSON.parse(savedCart) : [];
+    }
+
+    function showPaymentForm(method) {
+      // Hide all payment details
+      document.querySelectorAll('.payment-details').forEach(div => div.style.display = 'none');
+      
+      // Show selected method
+      document.getElementById(method + '-form').style.display = 'block';
+    }
+
+    function processPayPal() {
+      alert('Redirecting to PayPal...');
+      setTimeout(() => completeOrder(), 2000);
+    }
+
+    function processGooglePay() {
+      alert('Processing Google Pay payment...');
+      setTimeout(() => completeOrder(), 2000);
+    }
+
+    function processApplePay() {
+      alert('Processing Apple Pay payment...');
+      setTimeout(() => completeOrder(), 2000);
+    }
+
+    function processBankTransfer() {
+      alert('Bank transfer order confirmed. Please complete the transfer within 48 hours.');
+      completeOrder();
+    }
+
+    function completeOrder() {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const tax = subtotal * 0.1;
+      const finalTotal = subtotal + tax;
+
+      const order = {
+        id: 'ORD-' + Date.now(),
+        date: new Date().toLocaleDateString(),
+        products: cart.map(item => `${item.name} (x${item.quantity})`).join(', '),
+        amount: finalTotal,
+        status: 'Completed',
+        quantity: cart.reduce((sum, item) => sum + item.quantity, 0)
+      };
+
+      // Save order to user orders
+      const ordersKey = `orders-${userEmail}`;
+      const existingOrders = JSON.parse(localStorage.getItem(ordersKey) || '[]');
+      existingOrders.unshift(order);
+      localStorage.setItem(ordersKey, JSON.stringify(existingOrders));
+
+      // Save to admin system
+      const userName = sessionStorage.getItem('userName') || 'Guest User';
+      const allUsers = JSON.parse(localStorage.getItem('all-users') || '{}');
+      if (!allUsers[userEmail]) {
+        allUsers[userEmail] = {
+          name: userName,
+          email: userEmail,
+          registrationDate: new Date().toLocaleDateString(),
+          orders: []
+        };
+      }
+      allUsers[userEmail].orders = allUsers[userEmail].orders || [];
+      allUsers[userEmail].orders.push(order);
+      localStorage.setItem('all-users', JSON.stringify(allUsers));
+
+      // Clear cart
+      cart = [];
+      const cartKey = `cart-${userEmail}`;
+      localStorage.removeItem(cartKey);
+
+      // Show success modal
+      document.getElementById('order-id-display').textContent = order.id;
+      document.getElementById('order-amount-display').textContent = `$${finalTotal.toFixed(2)}`;
+      document.getElementById('order-date-display').textContent = order.date;
+      document.getElementById('success-modal').style.display = 'flex';
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('isLoggedIn');
+      sessionStorage.removeItem('userName');
+      sessionStorage.removeItem('userEmail');
+      alert('Logged out successfully!');
+      window.location.href = 'index.html';
+    }
+
+    function goHome() {
+      window.location.href = 'index.html';
+    }
+
+    function goToDashboard() {
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Axora Soft</title>
+  <link rel="stylesheet" href="about.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1 data-aos="fade-down" data-aos-duration="1500" class="logo">RR</h1>
+      <nav>
+        <a data-aos="fade-down" data-aos-duration="1500" href="index.html">HOME</a>
+        <a data-aos="fade-down" data-aos-duration="2000" href="about.html">ABOUT</a>
+        <a data-aos="fade-down" data-aos-duration="2500" href="#">PRICING</a>
+        <a data-aos="fade-down" data-aos-duration="3000" href="#contact">CONTACT US</a>
+      </nav>
+      <button data-aos="fade-down" data-aos-duration="1500" class="btn-signin" onclick="window.location.href='login.html'">SIGN IN</button>
+    </header>
+
+    <main>
+      <section class="about-section">
+        <h2 data-aos="fade-up" data-aos-duration="1500">About Rishav Software</h2>
+        <p data-aos="fade-up" data-aos-duration="2000" class="about-description">
+          Rishav Software Solutions is a leading provider of innovative software development services. We specialize in creating cutting-edge web applications, mobile apps, and custom software solutions that help businesses thrive in the digital age.
+        </p>
+
+        <div class="about-content">
+          <div class="about-item" data-aos="fade-right" data-aos-duration="1500">
+            <h3>What We Do</h3>
+            <p>We transform ideas into powerful software solutions. Our team of expert developers, designers, and consultants work together to deliver high-quality products that meet our clients' unique needs.</p>
+          </div>
+
+          <div class="about-item" data-aos="fade-left" data-aos-duration="1500">
+            <h3>Our Mission</h3>
+            <p>To empower businesses with technology that drives growth and innovation. We believe in delivering solutions that are not just functional, but also scalable, secure, and user-friendly.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="services-section">
+        <h2 data-aos="fade-up" data-aos-duration="1500">Our Services</h2>
+        <div class="services-grid">
+          <div class="service-item" data-aos="zoom-in" data-aos-delay="200">
+            <h4>Web Development</h4>
+            <p>Custom websites and web applications built with modern technologies like HTML5, CSS3, JavaScript, and frameworks such as React and Node.js.</p>
+          </div>
+          <div class="service-item" data-aos="zoom-in" data-aos-delay="400">
+            <h4>Mobile App Development</h4>
+            <p>Native and cross-platform mobile applications for iOS and Android, ensuring seamless user experiences across all devices.</p>
+          </div>
+          <div class="service-item" data-aos="zoom-in" data-aos-delay="600">
+            <h4>Software Consulting</h4>
+            <p>Expert advice on technology strategy, system architecture, and digital transformation to help your business stay ahead of the curve.</p>
+          </div>
+          <div class="service-item" data-aos="zoom-in" data-aos-delay="800">
+            <h4>UI/UX Design</h4>
+            <p>Intuitive and engaging user interfaces that enhance user satisfaction and drive conversions.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <div class="contact-container">
+      <h2 data-aos="fade-up" data-aos-duration="1500">Get In Touch</h2>
+      <p data-aos="fade-up" data-aos-duration="2000" class="contact-subtitle">We'd love to hear from you. Send us a message!</p>
+      
+      <div class="contact-content">
+        <!-- Contact Info -->
+        <div class="contact-info" style="background: black;" data-aos="fade-right" data-aos-duration="1500">
+          <h3>Contact Information</h3>
+          
+          <div class="info-item">
+            <div class="info-icon">📧</div>
+            <div class="info-details">
+              <h4>Email</h4>
+              <p><a href="mailto:info@rishavsoft.com">info@rishavsoft.com</a></p>
+              <p><a href="mailto:support@rishavsoft.com">support@rishavsoft.com</a></p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📞</div>
+            <div class="info-details">
+              <h4>Phone</h4>
+              <p><a href="tel:+91-6299867638">+91-6299867638</a></p>
+              <p><a href="tel:+91-9211585089">+91-9211585089</a></p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-details">
+              <h4>Address</h4>
+              <p>Rishav Software Solutions<br>
+              Tech Park, 123 Innovation Drive<br>
+              Bangalore, Karnataka 560001<br>
+              India</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form" data-aos="fade-left" data-aos-duration="1500">
+          <form>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+  </script>
+</body>
+</html>
+
